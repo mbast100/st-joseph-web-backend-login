@@ -10,6 +10,6 @@ login API
 """
 
 
-@app.route("/api/login",methods=["GET", "POST"])
+@app.route("/api/login", methods=["GET", "POST"])
 def login():
     pass

@@ -17,3 +17,8 @@
 - from command line run : `aws dynamodb scan --table-name users`
 should return content of users table
 
+
+## Update requirements.txt
+
+- Install: `pip install ...`
+- Update: `pip freeze > requirements.txt`
