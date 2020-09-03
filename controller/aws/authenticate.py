@@ -3,6 +3,13 @@ from boto3.dynamodb.conditions import Key
 
 
 def authenticate(email, password):
+    """
+    Validates email and password provided with the ones from the DB
+    Assumes that each user is only in the DB once
+    :param email: user's email (string)
+    :param password: user's password (string)
+    :return: response payload containing message and HTTP code
+    """
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table('users')
     response = table.query(

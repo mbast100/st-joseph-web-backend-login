@@ -22,12 +22,17 @@ def login():
                 data['email'],
                 data['password']
             )
-            if response['status_code'] == 201:
+            if response['status_code'] == 200:
                 jwt = Jwt()
                 email = data['email']
                 return jsonify({
                     'message': response['message'],
                     'token': jwt.encode_token(get_first_name(email), get_last_name(email), email, get_role(email))
-                    }), response['status_code']
+                }), response['status_code']
         except ApiException as e:
             return jsonify({'message': str(e)}), 401
+
+
+@app.route('/api/test/login', methods=['GET'])
+def test_login():
+    return jsonify({'message': 'Login API is up and running.'}), 200
