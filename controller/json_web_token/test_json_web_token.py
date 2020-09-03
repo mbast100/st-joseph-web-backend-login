@@ -1,4 +1,8 @@
+from jwt import ExpiredSignatureError
+import pytest
 from controller.json_web_token.json_web_token import Jwt
+import datetime
+import jwt
 
 
 def test_encode_token():
@@ -70,3 +74,24 @@ def test_get_role():
     response = jwt.encode_token(first_name, last_name, email, role)
     get_role = jwt.get_role(response)
     assert role == get_role
+
+
+def test_is_jwt_expired():
+    first_name = 'john'
+    last_name = 'smith'
+    email = 'john@smith.com'
+    role = 'admin'
+    current_date = datetime.datetime.now()
+    payload = {
+        'iat': current_date,
+        'exp': current_date - datetime.timedelta(seconds=30),
+        'sub': {
+            'first_name': first_name,
+            'last_name': last_name,
+            'email': email,
+            'role': role
+        }
+    }
+    token = jwt.encode(payload, 'secret_key', algorithm='HS256').decode('UTF-8')
+    with pytest.raises(ExpiredSignatureError):
+        assert jwt.decode(token, 'secret_key')

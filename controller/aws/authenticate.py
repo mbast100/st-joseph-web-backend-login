@@ -10,6 +10,8 @@ def authenticate(email, password):
     :param password: user's password (string)
     :return: response payload containing message and HTTP code
     """
+    if email == '':
+        return {"message": 'Missing email.', "status_code": 400}
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table('users')
     response = table.query(
@@ -17,11 +19,11 @@ def authenticate(email, password):
     )
     list = response['Items']
     if len(list) == 0:
-        return {"message": 'Email not found.', "status_code": 401}
+        return {"message": 'Email not found.', "status_code": 404}
     elif list[0].get("password") == password:
         return {"message": 'Authentication successful', "status_code": 200}
     else:
-        return {"message": 'Incorrect password.', "status_code": 401}
+        return {"message": 'Authentication failed. Incorrect password.', "status_code": 401}
 
 
 def get_first_name(email):

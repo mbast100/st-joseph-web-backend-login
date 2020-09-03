@@ -103,3 +103,13 @@ class Jwt:
             return 'Signature expired. Please log in again.'
         except jwt.InvalidTokenError:
             return 'Invalid token. Please log in again.'
+
+    def is_jwt_expired(self, jwt_token):
+        """
+        Decrypts json_web_token and returns boolean
+        :param jwt_token: generated json_web_token (string)
+        :return: True if jwt is expired (boolean)
+        """
+        payload = jwt.decode(jwt_token, key=self.secret_key)
+        if payload['exp'] < datetime.datetime.now():
+            return True

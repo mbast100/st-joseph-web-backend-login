@@ -13,9 +13,9 @@ login API
 """
 
 
-@app.route('/api/login', methods=['GET'])
+@app.route('/api/login', methods=['POST'])
 def login():
-    if request.method == 'GET':
+    if request.method == 'POST':
         data = request.get_json()
         try:
             response = authenticate(
@@ -29,10 +29,16 @@ def login():
                     'message': response['message'],
                     'token': jwt.encode_token(get_first_name(email), get_last_name(email), email, get_role(email))
                 }), response['status_code']
+            elif response['status_code'] == 404:
+                return jsonify({'message': response['message']}), 404
+            elif response['status_code'] == 400:
+                return jsonify({'message': response['message']}), 400
+            elif response['status_code'] == 401:
+                return jsonify({'message': response['message']}), 401
         except ApiException as e:
             return jsonify({'message': str(e)}), 401
 
 
-@app.route('/api/test/login', methods=['GET'])
+@app.route('/api/test/login', methods=['POST'])
 def test_login():
     return jsonify({'message': 'Login API is up and running.'}), 200
