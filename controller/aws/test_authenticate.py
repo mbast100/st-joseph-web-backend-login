@@ -5,7 +5,7 @@ def test_authenticate_success():
     email = 'mbast.amin97@gmail.com'
     password = 'Marc1997'
     payload = authenticate(email, password)
-    return {"message": 'Authentication successful', "status_code": 200}
+    response = {"message": 'Authentication successful', "status_code": 200}
     assert payload == response
 
 
