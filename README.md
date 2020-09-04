@@ -22,3 +22,9 @@ should return content of users table
 
 - Install: `pip install ...`
 - Update: `pip freeze > requirements.txt`
+
+## Deploying to AWS
+
+- zappa deploy
+- zappa update
+

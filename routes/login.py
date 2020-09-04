@@ -9,12 +9,20 @@ login API
 - authenticate user with email and password
 - if successful authentication (login) return 200 status code with a JWT token, 
     - JWT token must contain : [first_name,last_name, email]
+<<<<<<< Updated upstream
 - if not successful return status code 401
+=======
+- if not succseful return status code 401
+{
+email:,
+passwor:""
+}
+>>>>>>> Stashed changes
 """
 
 
 @app.route('/api/login', methods=['POST'])
-def login():
+def login_api():
     if request.method == 'POST':
         data = request.get_json()
         try:
@@ -27,7 +35,9 @@ def login():
                 email = data['email']
                 return jsonify({
                     'message': response['message'],
-                    'token': jwt.encode_token(get_first_name(email), get_last_name(email), email, get_role(email))
+                    'token': jwt.encode_token(get_first_name(email), get_last_name(email), email, get_role(email)),
+                    "firstName":get_first_name(email),
+                    "lastName":get_first_name(email)
                 }), response['status_code']
             elif response['status_code'] == 404:
                 return jsonify({'message': response['message']}), 404
@@ -39,6 +49,6 @@ def login():
             return jsonify({'message': str(e)}), 401
 
 
-@app.route('/api/test/login', methods=['POST'])
+@app.route('/api/test/login', methods=['GET'])
 def test_login():
     return jsonify({'message': 'Login API is up and running.'}), 200
