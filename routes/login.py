@@ -18,10 +18,11 @@ email:,
 passwor:""
 }
 >>>>>>> Stashed changes
+
 """
 
 
-@app.route('/api/login', methods=['POST'])
+@app.route('/api/login', methods=['POST', 'PUT'])
 def login_api():
     if request.method == 'POST':
         data = request.get_json()
@@ -47,6 +48,13 @@ def login_api():
                 return jsonify({'message': response['message']}), 401
         except ApiException as e:
             return jsonify({'message': str(e)}), 401
+
+    if request.method == 'PUT':
+        jwt_token = Jwt(token=request.headers.get("Authorization"))
+        resp= jwt_token.validate_token()
+        return jsonify({"message":resp["message"]}), resp["status_code"]
+
+
 
 
 @app.route('/api/test/login', methods=['GET'])

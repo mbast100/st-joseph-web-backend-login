@@ -1,9 +1,15 @@
 import jwt
 import datetime
+from api_exceptions import ApiException
 
 
 class Jwt:
     secret_key = '63vwlxbVi15X030EVlkPodAieJWI-qoMImXJZW6lg_P3v80oMlqPdDJOuiNSALzelN1AWv2bk28FE4coyZnzU6ZTbUb24bVwqwX9o0ZUWwkfLtRthkLr42rodz0deAHkKNu0LNpW1thKg5kkxiq8n_t6UnKLpam2lM-b92NfmlUbdgOgry1HtLu-GKP5lJBmclTX4yCaKnKSWPW1XKlB49r8sodjiAFGz-Egm8edIBpMkrwjOP_2a34I3l9Fz0m9vwoMY5eg5Vc13QiGyypajrimraPkR-lLcTgSJ4knZd2rP0fkBqpnvDwLD9PygOjLrowy-CjnMnVidtHSWvP_0A'
+
+    def __init__(self, token =''):
+        self.token = token
+        self.expired_token_message = "Token expired"
+        self.invalid_token_message = "Invalid token"
 
     def encode_token(self, first_name, last_name, email, role):
         """
@@ -44,9 +50,16 @@ class Jwt:
             payload = jwt.decode(jwt_token, key=self.secret_key)
             return payload['sub']
         except jwt.ExpiredSignatureError:
-            return 'Signature expired. Please log in again.'
+            return 'Token expired'
         except jwt.InvalidTokenError:
-            return 'Invalid token. Please log in again.'
+            return 'Invalid token'
+
+    def validate_token(self):
+        decode = self.decode_token(self.token)
+        if decode == self.expired_token_message or decode == self.invalid_token_message:
+            return {"message":"failed token validation", "status_code":401}
+        else:
+            return {"message":"valid token", "status_code":200}
 
     def get_first_name(self, jwt_token):
         """
