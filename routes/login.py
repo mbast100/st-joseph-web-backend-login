@@ -1,6 +1,7 @@
 from app import app
 from flask import jsonify, request
 from controller.json_web_token.json_web_token import *
+from controller.aws.get_users import *
 from controller.aws.authenticate import *
 from api_exceptions import ApiException
 
@@ -22,8 +23,12 @@ passwor:""
 """
 
 
-@app.route('/api/login', methods=['POST', 'PUT'])
+@app.route('/api/login', methods=['POST', 'PUT', 'GET'])
 def login_api():
+
+    if request.method == 'GET':
+        return jsonify(get_all_users()), 200
+
     if request.method == 'POST':
         data = request.get_json()
         try:

@@ -50,9 +50,9 @@ class Jwt:
             payload = jwt.decode(jwt_token, key=self.secret_key)
             return payload['sub']
         except jwt.ExpiredSignatureError:
-            return 'Token expired'
+            return self.expired_token_message
         except jwt.InvalidTokenError:
-            return 'Invalid token'
+            return self.invalid_token_message
 
     def validate_token(self):
         decode = self.decode_token(self.token)
