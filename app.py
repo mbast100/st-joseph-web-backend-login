@@ -6,6 +6,7 @@ cors = CORS(app, resources={ r'/*': {'origins': "*"}}, supports_credentials=True
 
 
 from routes.login import *
+from routes.users import *
 
 
 if __name__ == '__main__':
