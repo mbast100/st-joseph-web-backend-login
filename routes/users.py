@@ -1,5 +1,5 @@
 from app import app
-from flask import jsonify, request
+from flask import jsonify, request, make_response
 from controller.aws.get_users import *
 from controller.aws.post_users import *
 from controller.aws.put_users import *
@@ -31,7 +31,11 @@ Users API
 @app.route('/api/users', methods=['POST', 'GET'])
 def users_api():
     if request.method == 'GET':
-        return jsonify(get_all_users()), 200
+        users = get_all_users()
+        response = make_response(jsonify(users), 200)
+        response.headers["Content-Range"] = len(users)
+        response.headers['Access-Control-Expose-Headers'] = 'Content-Range'
+        return response
 
     if request.method == 'POST':
         data = request.get_json()
