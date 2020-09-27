@@ -27,7 +27,24 @@ passwor:""
 def login_api():
 
     if request.method == 'GET':
-        return jsonify(get_all_users()), 200
+        token = request.headers.get('authorization')
+        jwt = Jwt()
+        first_name = jwt.get_first_name(token)
+        last_name = jwt.get_last_name(token)
+        exp_message = 'Signature expired. Please log in again.'
+        inv_message = 'Invalid token. Please log in again.'
+        if first_name == exp_message or last_name == exp_message:
+            return jsonify({'first_name': 'null',
+                            'last_name': 'null',
+                            'message': exp_message}), 400
+        elif first_name == inv_message or last_name == inv_message:
+            return jsonify({'first_name': 'null',
+                            'last_name': 'null',
+                            'message': inv_message}), 400
+        else:
+            return jsonify({'first_name': first_name,
+                            'last_name': last_name,
+                            'message': 'Valid jwt.'}), 200
 
     if request.method == 'POST':
         data = request.get_json()
@@ -42,8 +59,8 @@ def login_api():
                 return jsonify({
                     'message': response['message'],
                     'token': jwt.encode_token(get_first_name(email), get_last_name(email), email, get_role(email)),
-                    "firstName":get_first_name(email),
-                    "lastName":get_first_name(email)
+                    "firstName": get_first_name(email),
+                    "lastName": get_last_name(email)
                 }), response['status_code']
             elif response['status_code'] == 404:
                 return jsonify({'message': response['message']}), 404

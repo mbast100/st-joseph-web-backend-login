@@ -57,9 +57,9 @@ class Jwt:
     def validate_token(self):
         decode = self.decode_token(self.token)
         if decode == self.expired_token_message or decode == self.invalid_token_message:
-            return {"message":"failed token validation", "status_code":401}
+            return {"message": "failed token validation", "status_code": 401}
         else:
-            return {"message":"valid token", "status_code":200}
+            return {"message": "valid token", "status_code": 200}
 
     def get_first_name(self, jwt_token):
         """
