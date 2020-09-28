@@ -23,7 +23,6 @@ class TestProdLoginApi:
             "email": "test@test.com",
             "password": "stjosephtest"
              }))
-        print("res: ",web.json_response)
         assert web.get_status_code == 200
         assert web.json_response.get("firstName") == "test"
         assert web.json_response.get("message") == "Authentication successful"
@@ -35,4 +34,16 @@ class TestProdLoginApi:
             "password": "random"
              }))
         assert web.get_status_code == 401
+    
+    def test_get_current_user_info(self,prod_endpoint):
+        web = HTTPcore(prod_endpoint)
+        temp = Jwt()
+        token = temp.encode_token('john', 'smith', 'john@smith.com', 'admin')
+        web.core("GET", headers={"Authorization": token})
+        assert web.get_status_code == 200
+        assert web.json_response["first_name"] == "john"
+        assert web.json_response["last_name"] == "smith"
+
+
+
     
