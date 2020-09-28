@@ -28,3 +28,7 @@ should return content of users table
 - zappa deploy
 - zappa update
 
+## Testing
+
+- test login api in prod: `pytest tests/routes/test_prod_login.py -s`
+
