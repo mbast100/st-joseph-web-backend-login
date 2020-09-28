@@ -10,16 +10,7 @@ login API
 - authenticate user with email and password
 - if successful authentication (login) return 200 status code with a JWT token, 
     - JWT token must contain : [first_name,last_name, email]
-<<<<<<< Updated upstream
 - if not successful return status code 401
-=======
-- if not succseful return status code 401
-{
-email:,
-passwor:""
-}
->>>>>>> Stashed changes
-
 """
 
 
