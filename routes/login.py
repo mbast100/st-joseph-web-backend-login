@@ -19,23 +19,15 @@ def login_api():
 
     if request.method == 'GET':
         token = request.headers.get('authorization')
-        jwt = Jwt()
-        first_name = jwt.get_first_name(token)
-        last_name = jwt.get_last_name(token)
-        exp_message = 'Signature expired. Please log in again.'
-        inv_message = 'Invalid token. Please log in again.'
-        if first_name == exp_message or last_name == exp_message:
-            return jsonify({'first_name': 'null',
-                            'last_name': 'null',
-                            'message': exp_message}), 400
-        elif first_name == inv_message or last_name == inv_message:
-            return jsonify({'first_name': 'null',
-                            'last_name': 'null',
-                            'message': inv_message}), 400
+        jwt = Jwt(token=token)
+        if jwt.is_valid:
+            return jsonify({
+                "first_name": jwt.get_first_name(),
+                "last_name": jwt.get_last_name(),
+                'message': 'Valid jwt.'
+            }), 200
         else:
-            return jsonify({'first_name': first_name,
-                            'last_name': last_name,
-                            'message': 'Valid jwt.'}), 200
+            return jsonify({"message": "invalid token."}), 401
 
     if request.method == 'POST':
         data = request.get_json()

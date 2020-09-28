@@ -61,28 +61,28 @@ class Jwt:
         else:
             return {"message": "valid token", "status_code": 200}
 
-    def get_first_name(self, jwt_token):
+    def get_first_name(self):
         """
         Decrypts json_web_token and returns the user's first name
         :param jwt_token: generated json_web_token (string)
         :return: user's first name (string)
         """
         try:
-            payload = jwt.decode(jwt_token, key=self.secret_key)
+            payload = jwt.decode(self.token, key=self.secret_key)
             return payload['sub']['first_name']
         except jwt.ExpiredSignatureError:
             return 'Signature expired. Please log in again.'
         except jwt.InvalidTokenError:
             return 'Invalid token. Please log in again.'
 
-    def get_last_name(self, jwt_token):
+    def get_last_name(self):
         """
         Decrypts json_web_token and returns the user's last name
         :param jwt_token: generated json_web_token (string)
         :return: user's last name (string)
         """
         try:
-            payload = jwt.decode(jwt_token, key=self.secret_key)
+            payload = jwt.decode(self.token, key=self.secret_key)
             return payload['sub']['last_name']
         except jwt.ExpiredSignatureError:
             return 'Signature expired. Please log in again.'
@@ -126,3 +126,11 @@ class Jwt:
         payload = jwt.decode(jwt_token, key=self.secret_key)
         if payload['exp'] < datetime.datetime.now():
             return True
+    
+    @property
+    def is_valid(self):
+        resp = self.validate_token()
+        if resp.get("status_code") == 200:
+            return True
+        else:
+            return False
