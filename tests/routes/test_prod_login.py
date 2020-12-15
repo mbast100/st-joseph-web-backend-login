@@ -5,11 +5,9 @@ import json
 
 class TestProdLoginApi:
 
-    def test_successful_token_validation(self,prod_endpoint):
+    def test_successful_token_validation(self,prod_endpoint, valid_token):
         core = HTTPcore(prod_endpoint)
-        temp = Jwt()
-        token = temp.encode_token('john', 'smith', 'john@smith.com', 'admin')
-        core.core("GET",headers={"Authorization": token})
+        core.core("GET",headers={"Authorization": valid_token})
         assert core.get_status_code == 200
 
     def test_unsuccessful_token_validation(self,prod_endpoint):
@@ -35,11 +33,9 @@ class TestProdLoginApi:
              }))
         assert web.get_status_code == 401
     
-    def test_get_current_user_info(self,prod_endpoint):
+    def test_get_current_user_info(self,prod_endpoint, valid_token):
         web = HTTPcore(prod_endpoint)
-        temp = Jwt()
-        token = temp.encode_token('john', 'smith', 'john@smith.com', 'admin')
-        web.core("GET", headers={"Authorization": token})
+        web.core("GET", headers={"Authorization": valid_token})
         assert web.get_status_code == 200
         assert web.json_response["first_name"] == "john"
         assert web.json_response["last_name"] == "smith"
