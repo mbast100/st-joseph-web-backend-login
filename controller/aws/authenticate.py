@@ -1,5 +1,9 @@
 import boto3
 from boto3.dynamodb.conditions import Key
+from controller.aws.helper import *
+
+
+aes_key = 'F6CBE7F43612B9BE'
 
 
 def authenticate(email, password):
@@ -18,9 +22,12 @@ def authenticate(email, password):
         KeyConditionExpression=(Key('email').eq(email))
     )
     list = response['Items']
+
+    decrypted_password = decrypt_password(list[0].get("password"))
+
     if len(list) == 0:
         return {"message": 'Email not found.', "status_code": 404}
-    elif list[0].get("password") == password:
+    elif decrypted_password == password:
         return {"message": 'Authentication successful', "status_code": 200}
     else:
         return {"message": 'Authentication failed. Incorrect password.', "status_code": 401}

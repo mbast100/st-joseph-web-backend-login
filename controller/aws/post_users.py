@@ -54,10 +54,12 @@ def post_users(payload):
     if (last_name_validation is not None) and (last_name_validation['status_code'] == 400):
         return {"message": 'Invalid last_name format', "status_code": 400}
 
+    encrypted_password = encrypt_password(password)
+
     id = generate_id()
     table.put_item(
         Item={
-            "password": password,
+            "password": encrypted_password,
             "first_name": first_name,
             "last_name": last_name,
             "role": role,
