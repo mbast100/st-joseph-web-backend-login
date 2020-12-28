@@ -1,12 +1,11 @@
 import boto3
 from boto3.dynamodb.conditions import Key
-from controller.aws.helper import *
+from controller.password_encryption import PasswordEncryption
+import os
+from flask import current_app
+from api_exceptions import ApiException
 
-
-aes_key = 'F6CBE7F43612B9BE'
-
-
-def authenticate(email, password, key=""):
+def authenticate(email, password, key="", user=''):
     """
     Validates email and password provided with the ones from the DB
     Assumes that each user is only in the DB once
@@ -14,19 +13,25 @@ def authenticate(email, password, key=""):
     :param password: user's password (string)
     :return: response payload containing message and HTTP code
     """
-    if email == '':
-        return {"message": 'Missing email.', "status_code": 400}
-    dynamodb = boto3.resource('dynamodb')
-    table = dynamodb.Table('users')
-    response = table.query(
-        KeyConditionExpression=(Key('email').eq(email))
-    )
-    try:
-        user = response['Items']
-    except KeyError:
-        return ''
+    if current_app.testing:
+        user = [user]
+    else:
+        dynamodb = boto3.resource('dynamodb')
+        table = dynamodb.Table('users')
+        response = table.query(
+            KeyConditionExpression=(Key('email').eq(email))
+        )
+        try:
+            user = response['Items']
+        except KeyError:
+            return ''
 
-    decrypted_password = decrypt_password(user[0].get("password"), key)
+    password_enc = PasswordEncryption(key)
+    decrypted_password = ''
+    try:
+        decrypted_password = password_enc.decrypt(user[0].get("password"))
+    except ValueError:
+        raise ApiException(message='Invalid password length. This password encryption isnt correct', status_code= 401)
 
     if len(user) == 0:
         return {"message": 'Email not found.', "status_code": 404}
