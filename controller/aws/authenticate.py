@@ -6,7 +6,7 @@ from controller.aws.helper import *
 aes_key = 'F6CBE7F43612B9BE'
 
 
-def authenticate(email, password):
+def authenticate(email, password, key=""):
     """
     Validates email and password provided with the ones from the DB
     Assumes that each user is only in the DB once
@@ -21,11 +21,14 @@ def authenticate(email, password):
     response = table.query(
         KeyConditionExpression=(Key('email').eq(email))
     )
-    list = response['Items']
+    try:
+        user = response['Items']
+    except KeyError:
+        return ''
 
-    decrypted_password = decrypt_password(list[0].get("password"))
+    decrypted_password = decrypt_password(user[0].get("password"), key)
 
-    if len(list) == 0:
+    if len(user) == 0:
         return {"message": 'Email not found.', "status_code": 404}
     elif decrypted_password == password:
         return {"message": 'Authentication successful', "status_code": 200}
@@ -39,9 +42,9 @@ def get_first_name(email):
     response = table.query(
         KeyConditionExpression=(Key('email').eq(email))
     )
-    list = response['Items']
-    if len(list) != 0:
-        return list[0].get("first_name")
+    user = response['Items']
+    if len(user) != 0:
+        return user[0].get("first_name")
 
 
 def get_last_name(email):
@@ -50,9 +53,9 @@ def get_last_name(email):
     response = table.query(
         KeyConditionExpression=(Key('email').eq(email))
     )
-    list = response['Items']
-    if len(list) != 0:
-        return list[0].get("last_name")
+    user = response['Items']
+    if len(user) != 0:
+        return user[0].get("last_name")
 
 
 def get_role(email):
@@ -61,6 +64,6 @@ def get_role(email):
     response = table.query(
         KeyConditionExpression=(Key('email').eq(email))
     )
-    list = response['Items']
-    if len(list) != 0:
-        return list[0].get("role")
+    user = response['Items']
+    if len(user) != 0:
+        return user[0].get("role")
