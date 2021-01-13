@@ -25,6 +25,6 @@ __pycache__/
 *./__pycache__
 /tests/__pycache__/*
 __pycache__/
-
-*.pyc
+*.cpython-38.pyc
+.pyc
 ./__pycache__
