@@ -43,7 +43,3 @@
 #         assert web.get_status_code == 200
 #         assert web.json_response["first_name"] == "john"
 #         assert web.json_response["last_name"] == "smith"
-
-
-
-    
