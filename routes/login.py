@@ -34,7 +34,8 @@ def login_api():
         try:
             response = authenticate(
                 data['email'],
-                data['password']
+                data['password'],
+                key=app.config['AES_KEY'],
             )
             if response['status_code'] == 200:
                 jwt = Jwt()
@@ -52,7 +53,7 @@ def login_api():
             elif response['status_code'] == 401:
                 return jsonify({'message': response['message']}), 401
         except ApiException as e:
-            return jsonify({'message': str(e)}), 401
+            return jsonify({'message': str(e.message)}), e.status_code
 
     if request.method == 'PUT':
         jwt_token = Jwt(token=request.headers.get("Authorization"))
