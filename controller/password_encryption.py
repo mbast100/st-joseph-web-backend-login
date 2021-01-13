@@ -16,11 +16,15 @@ class PasswordEncryption(object):
         return str(base64.b64encode(iv + cipher.encrypt(raw.encode())), 'utf-8')
 
     def decrypt(self, enc):
-        enc_byte = enc.encode('utf-8')
-        enc = base64.b64decode(enc_byte)
-        iv = enc[:AES.block_size]
-        cipher = AES.new(self.key, AES.MODE_CBC, iv)
-        return self._unpad(cipher.decrypt(enc[AES.block_size:])).decode('utf-8')
+        try:
+            enc_byte = enc.encode('utf-8')
+            enc = base64.b64decode(enc_byte)
+            iv = enc[:AES.block_size]
+            cipher = AES.new(self.key, AES.MODE_CBC, iv)
+            return self._unpad(cipher.decrypt(enc[AES.block_size:])).decode('utf-8')
+        
+        except UnicodeDecodeError:
+            return False
 
     def _pad(self, s):
         return s + (self.bs - len(s) % self.bs) * chr(self.bs - len(s) % self.bs)

@@ -2,21 +2,26 @@ import boto3
 from controller.aws.helper import *
 from controller.aws.validation import *
 from boto3.dynamodb.conditions import Key
+from controller.password_encryption import PasswordEncryption
+from flask import current_app
+import datetime
 
 dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table('users')
 
 
 def post_users(payload):
-    keys_list = payload.keys()
 
+    keys_list = payload.keys()
+    enc = PasswordEncryption(key=current_app.config["AES_KEY"])
+    password_enc = ''
     if 'email' in keys_list:
         email = payload['email']
     else:
         return {"message": 'Missing email in payload', "status_code": 406}
 
     if 'password' in keys_list:
-        password = payload['password']
+        password_enc = enc.encrypt(payload['password'])
     else:
         return {"message": 'Missing password in payload', "status_code": 406}
 
@@ -54,12 +59,11 @@ def post_users(payload):
     if (last_name_validation is not None) and (last_name_validation['status_code'] == 400):
         return {"message": 'Invalid last_name format', "status_code": 400}
 
-    encrypted_password = encrypt_password(password)
-
     id = generate_id()
     table.put_item(
         Item={
-            "password": encrypted_password,
+            "created_on": str(datetime.datetime.now()),
+            "password": password_enc,
             "first_name": first_name,
             "last_name": last_name,
             "role": role,

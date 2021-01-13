@@ -1,10 +1,10 @@
 import jwt
 import datetime
 from api_exceptions import ApiException
-
+from flask import current_app
 
 class Jwt:
-    secret_key = '63vwlxbVi15X030EVlkPodAieJWI-qoMImXJZW6lg_P3v80oMlqPdDJOuiNSALzelN1AWv2bk28FE4coyZnzU6ZTbUb24bVwqwX9o0ZUWwkfLtRthkLr42rodz0deAHkKNu0LNpW1thKg5kkxiq8n_t6UnKLpam2lM-b92NfmlUbdgOgry1HtLu-GKP5lJBmclTX4yCaKnKSWPW1XKlB49r8sodjiAFGz-Egm8edIBpMkrwjOP_2a34I3l9Fz0m9vwoMY5eg5Vc13QiGyypajrimraPkR-lLcTgSJ4knZd2rP0fkBqpnvDwLD9PygOjLrowy-CjnMnVidtHSWvP_0A'
+    secret_key = current_app.config['JWT_SECRET']
 
     def __init__(self, token =''):
         self.token = token

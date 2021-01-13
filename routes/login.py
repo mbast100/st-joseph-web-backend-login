@@ -35,7 +35,7 @@ def login_api():
             response = authenticate(
                 data['email'],
                 data['password'],
-                key=app.config['aes_key'],
+                key=app.config['AES_KEY'],
             )
             if response['status_code'] == 200:
                 jwt = Jwt()
