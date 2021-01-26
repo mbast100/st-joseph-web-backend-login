@@ -121,59 +121,36 @@ To scan all the users in the database, use the following command on the AWS CLI:
 
 ### Sample Payloads
 
-#### POST
+#### User API
 
-Below is an example of a payload that the repo whould take for the POST operation:
+##### POST
 
-```sh
-{
-  "extension": "JPEG",
-  "name": "Cute Dog",
-  "owner": "Shahir Mikhail",
-  "size": "300 KB",
-  "url": "https://picsum.photos/id/237/200/300"
-}
-```
-
-#### PUT
-
-Below is an example of a payload that the repo whould take for the PUT operation:
+Below is an example of a payload that the API whould take for the POST operation:
 
 ```sh
 {
-  "extension": "JPEG",
-  "id": "b2efff0a-38d6-4b02-8060-e7a0c03c0591",
-  "name": "Cute Dog",
-  "owner": "Shahir Mikhail",
-  "size": "300 KB",
-  "url": "https://picsum.photos/id/237/200/300"
+  "first_name": "John",
+  "last_name": "Doe",
+  "email": "john.doe@gmail.com",
+  "role": "admin",
+  "password": "SuperMan123!"
 }
 ```
 
+##### PUT
 
-### Validation
+Below is an example of a payload that the API whould take for the PUT operation:
 
-`extension`
-- Mandatory field
-- Must be one of the following (case sensitive): JPEG, JPG, PNG, GIF, TIFF, PSD, PDF, EPS, AI, INDD or RAW
-
-`name`
-- Mandatory field
-- Must be alphanumeric
-- Must have a minimum of 5 and a maximum of 37 characters
-
-`owner`
-- Mandatory field
-- Must be alphanumeric
-- Must have a minimum of 5 and a maximum of 37 characters
-
-`size`
-- Mandatory field
-- Must have the following format: '### {KB, MB, GB or TB}'
-- See the sample payloads for an example
-
-`url`
-- Mandatory field
+```sh
+{
+  "first_name": "John",
+  "last_name": "Doe",
+  "email": "john.doe@gmail.com",
+  "role": "admin",
+  "password": "SuperMan123!",
+  "id": "23ca88b3-84ef-42be-9dd6-efb7426ec500"
+}
+```
 
 
 <!-- CONTACT -->
