@@ -105,7 +105,6 @@ To update the requirements when installing new packages, run:
     - Windows: `source venv\scripts\activate`
 - To run the app: `python app.py`
 
-
 ### Deploying to AWS
 
 To deploy the lambda functions to AWS, run the follwoing commands:
@@ -115,9 +114,18 @@ To deploy the lambda functions to AWS, run the follwoing commands:
 
 ### Testing
 
-To run the tests in prod, use:
+[Pytest](https://docs.pytest.org/en/stable/) is the framework used, to allow for unit and integration tests.
 
-`pytest tests/routes/test_prod_login.py -s`
+Each component should have a test file associated to it. For example, the test file for `/controller/aws/ssm.py` is located under  `tests/controller/aws/test_ssm.py`.
+
+To run the tests individually, use the follwoing command:
+
+`pytest tests/{test_file_path}`
+
+Example:
+
+`pytest tests/controller/aws/test_ssm.py`
+
 
 ### DynamoDB
 
