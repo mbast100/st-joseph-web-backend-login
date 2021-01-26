@@ -1,9 +1,9 @@
-# Authorization API
+# Authorization and Authentication API
 
 
 This project is being developed for St Joseph's web application.
 
-The Authorization API is a Flask REST API which allows the user to authorize clients. It also allows the user to post, retrieve, modify and delete users in the database.
+The Authorization and Authentication API is a Flask REST API handles role-based authorization for the St Joseph web app. It also creates and authenticates users.
 
 
 <!-- TABLE OF CONTENTS -->
