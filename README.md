@@ -25,7 +25,6 @@ The Authorization and Authentication API is a Flask REST API handles role-based 
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#dev-environment">Dev Environment</a></li>
         <li><a href="#deploying-to-aws">Deploying to AWS</a></li>
-        <li><a href="#testing">Testing</a></li>
         <li><a href="#dynamodb">DynamoDB</a></li>
       </ul>
     </li>
@@ -113,11 +112,6 @@ To deploy the lambda functions to AWS, run the follwoing commands:
 - `zappa deploy`
 - `zappa update`
 
-### Testing
-
-To run the tests in prod, use:
-
-`pytest tests/routes/test_prod_login.py -s`
 
 ### DynamoDB
 
