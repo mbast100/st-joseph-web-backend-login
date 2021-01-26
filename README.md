@@ -50,12 +50,20 @@ The Authorization API is a Flask REST API which allows the user to authorize cli
 Listed below are the frameworks and database used for this project.
 
 * [Flask](https://flask.palletsprojects.com/en/1.1.x/)
-* [DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html)
+* [JWT](https://jwt.io/introduction/)
 * [PyTest](https://docs.pytest.org/en/stable/)
+* [AWS](https://docs.aws.amazon.com)
+  * [DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html)
+  * [AWS Lambda](https://aws.amazon.com/lambda/)
+  * [AWS SSM](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html)
+  * [AWS Amplify](https://aws.amazon.com/amplify/)
 
 
 ### Architecture Diagram
 
+Below is a diagram describing the architecture structure of the entire St Joseph web app.
+
+![alt text](Diagram.png?raw=true)
 
 
 
@@ -68,12 +76,16 @@ To get a local copy up and running follow these simple steps.
 ### Prerequisites
 
 The `requirements.txt` file contains all the necessary frameworks and libraries. To download the prerequisites, run the following command (uses `pip`):
-  ```sh
-  pip install -r requirements.txt
-  ```
+
+`pip install -r requirements.txt`
+  
+To update the requirements when installing new packages, run:
+
+`pip freeze > requirements.txt`
   
 ### Dev Environment
 - `python -v` 3.7 or greater
+- AWS CLI [(version 1)](https://docs.aws.amazon.com/cli/latest/userguide/install-macos.html)
 - To clone the repo: `git clone https://github.com/shahirmikhail/shopify-image-repo.git`
 - Change the current working directory to the local project root and run (only required for the first time):
     - Mac: `python3 -m venv venv`
@@ -81,6 +93,28 @@ The `requirements.txt` file contains all the necessary frameworks and libraries.
 - To start the virtual environment:
     - Mac: `source venv\bin\activate`
     - Windows: `source venv\scripts\activate`
+- To run the app: `python app.py`
+
+
+### Deploying to AWS
+
+To deploy the lambda functions to AWS, run the follwoing commands:
+
+- `zappa deploy`
+- `zappa update`
+
+### Testing
+
+To run the tests in prod, use:
+
+`pytest tests/routes/test_prod_login.py -s`
+
+### DynamoDB
+
+To scan all the users in the database, use the following command on the AWS CLI:
+
+`aws dynamodb scan --table-name users`
+
 
 <!-- USAGE EXAMPLES -->
 ## Usage
@@ -145,49 +179,8 @@ Below is an example of a payload that the repo whould take for the PUT operation
 <!-- CONTACT -->
 ## Contact
 
+Mark Bastawros - [LinkedIn](https://www.linkedin.com/in/mark-bastawros-1ba081178) - mbast.amin97@gmail.com
+
 Shahir Mikhail - [LinkedIn](https://linkedin.com/in/shahirmikhail) - shahir.mikhail@gmail.com
 
-
-
-
-
-
-
-
-
-## Requirements 
-- set up AWS cli (version 1) https://docs.aws.amazon.com/cli/latest/userguide/install-macos.html
-- python 3.7 or higher
-
-
-## Setup dev env
-- clone repo
-- cd project root & run:
-    - Mac: `python3 -m venv venv`
-    - Windows: `python -m venv venv`
-- start virtual env:
-    - Mac: `source venv\bin\activate`
-    - Windows: `source venv\scripts\activate`
-- Install requirements: `pip install -r requirements.txt`
-- Run app: `python app.py`
-
-## AWS 
-
-- from command line run : `aws dynamodb scan --table-name users`
-should return content of users table.
-
-
-## Update requirements.txt
-
-- Install: `pip install ...`
-- Update: `pip freeze > requirements.txt`
-
-## Deploying to AWS
-
-- zappa deploy
-- zappa update
-
-## Testing
-
-- test login api in prod: `pytest tests/routes/test_prod_login.py -s`
 
