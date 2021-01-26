@@ -15,12 +15,18 @@ The Authorization API is a Flask REST API which allows the user to authorize cli
       <ul>
         <li><a href="#built-with">Built With</a></li>
       </ul>
+      <ul>
+        <li><a href="#architecture-diagram">Architecture Diagram</a></li>
+      </ul>
     </li>
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#dev-environment">Dev Environment</a></li>
+        <li><a href="#deploying-to-aws">Deploying to AWS</a></li>
+        <li><a href="#testing">Testing</a></li>
+        <li><a href="#dynamodb">DynamoDB</a></li>
       </ul>
     </li>
      <li>
@@ -29,11 +35,15 @@ The Authorization API is a Flask REST API which allows the user to authorize cli
         <li>
           <a href="#sample-payloads">Sample Payloads</a>
             <ul>
-              <li><a href="#post">POST</a></li>
-              <li><a href="#put">PUT</a></li>
+              <li>
+                <a href="#user-api">User API</a>
+                <ul>
+                  <li><a href="#post">POST</a></li>
+                  <li><a href="#put">PUT</a></li>
+                </ul>
+              </li>
             </ul>
         </li>
-        <li><a href="#validation">Validation</a></li>
       </ul>
     </li>
     <li><a href="#contact">Contact</a></li>
