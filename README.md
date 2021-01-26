@@ -25,6 +25,7 @@ The Authorization and Authentication API is a Flask REST API handles role-based 
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#dev-environment">Dev Environment</a></li>
         <li><a href="#deploying-to-aws">Deploying to AWS</a></li>
+        <li><a href="#testing">Testing</a></li>
         <li><a href="#dynamodb">DynamoDB</a></li>
       </ul>
     </li>
@@ -104,13 +105,22 @@ To update the requirements when installing new packages, run:
     - Windows: `source venv\scripts\activate`
 - To run the app: `python app.py`
 
-
 ### Deploying to AWS
 
 To deploy the lambda functions to AWS, run the follwoing commands:
 
 - `zappa deploy`
 - `zappa update`
+
+### Testing
+
+[Pytest](https://docs.pytest.org/en/stable/) is the framework used, to allow for unit and integration tests.
+
+Each component should have a test file associated to it. For example, the test file for `/controller/aws/ssm.py` is located under  `tests/controller/aws/test_ssm.py`.
+
+To run the tests individually, use the follwoing command:
+
+`pytest tests/{test_file_name}.py`
 
 
 ### DynamoDB
