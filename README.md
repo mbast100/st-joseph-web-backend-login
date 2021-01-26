@@ -120,7 +120,11 @@ Each component should have a test file associated to it. For example, the test f
 
 To run the tests individually, use the follwoing command:
 
-`pytest tests/{test_file_name}.py`
+`pytest tests/{test_file_path}`
+
+Example:
+
+`pytest tests/controller/aws/test_ssm.py`
 
 
 ### DynamoDB
